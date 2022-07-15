@@ -1,0 +1,72 @@
+#importing necessery libraries for future analysis of the dataset
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+%matplotlib inline
+import seaborn as sns
+
+#after looking at the head of the dataset we already were able to notice some NaN values, therefore need to examine missing values further before continuing with analysis
+
+#looking to find out first what columns have null values
+#using 'sum' function will show us how many nulls are found in each column in dataset
+airbnb.isnull().sum()
+
+
+#dropping columns that are not significant or could be unethical to use for our future data exploration and predictions
+airbnb.drop(['id','host_name','last_review'], axis=1, inplace=True)
+#examing the changes
+airbnb.head(3)
+
+
+
+#replacing all NaN values in 'reviews_per_month' with 0
+airbnb.fillna({'reviews_per_month':0}, inplace=True)
+#examing changes
+airbnb.reviews_per_month.isnull().sum()
+
+
+#let's proceed with examing some interesting categorical unique values
+
+#examining the unique values of n_group as this column will appear very handy for later analysis
+airbnb.neighbourhood_group.unique()
+
+
+#examining the unique values of neighbourhood as this column will appear very handy for later analysis
+len(airbnb.neighborhoods.unique())
+
+
+#let's see what hosts (IDs) have the most listings on Airbnb platform and taking advantage of this service
+top_host=airbnb.host_id.value_counts().head(10)
+top_host
+
+
+#let's find out more about our neighborhoods presented 'Brooklyn', 'Manhattan', 'Queens', 'Staten Island', and 'Bronx'
+
+#Brooklyn
+sub_1=airbnb.loc[airbnb['neighborhoods_group'] == 'Brooklyn']
+price_sub1=sub_1[['price']]
+#Manhattan
+sub_2=airbnb.loc[airbnb['neighborhoods_group'] == 'Manhattan']
+price_sub2=sub_2[['price']]
+#Queens
+sub_3=airbnb.loc[airbnb['neighbourhood_group'] == 'Queens']
+price_sub3=sub_3[['price']]
+#Staten Island
+sub_4=airbnb.loc[airbnb['neighbourhood_group'] == 'Staten Island']
+price_sub4=sub_4[['price']]
+#Bronx
+sub_5=airbnb.loc[airbnb['neighbourhood_group'] == 'Bronx']
+price_sub5=sub_5[['price']]
+#putting all the prices' dfs in the list
+price_list_by_n=[price_sub1, price_sub2, price_sub3, price_sub4, price_sub5]
+
+
+#we are going to use barplot for this visualization
+viz_5=sns.barplot(x='Words', y='Count', data=sub_w)
+viz_5.set_title('Counts of the top 25 used words for listing names')
+viz_5.set_ylabel('Count of words')
+viz_5.set_xlabel('Words')
+viz_5.set_xticklabels(viz_5.get_xticklabels(), rotation=80)
+
+
